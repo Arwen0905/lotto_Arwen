@@ -1,0 +1,37 @@
+package java_BOOK;
+
+import java.util.*;
+
+public class a0726_集合與泛型_HashMap姓名與職業 {
+
+	public static void main(String[] args) {
+		HashMap<String,String> hmap = new HashMap<>();
+		hmap.put("阿文", "劍士");
+		HashMap<String,String> post = new HashMap<String,String>() {{
+			put("明峯","聖騎士");
+			put("景雯","牧師");
+			put("念祖","指揮官");
+			put("阿作","法師");
+			put("Eric","阿作の護衛");
+		}};
+		System.out.println("hmap 的集合內容: "+hmap);
+		System.out.println("post 的集合內容: "+post);
+		hmap.putAll(post);
+		System.out.println("將 post 賦予給 hmap 新的map物件");
+		System.out.println("hmap 的集合內容: "+hmap);
+		System.out.println("hmap 的集合個數: "+hmap.size());
+		System.out.println("加入:Eric");
+		if(hmap.containsKey("Eric")){
+			System.out.println("Eric 已存在!欲重複加入時，職業欄資料會被覆蓋掉!");}
+		System.out.println("Eric 的職業: "+hmap.get("Eric"));
+		hmap.put("Eric", "盜賊");
+		System.out.println("Eric 的職業已更改為: "+hmap.get("Eric"));
+		
+		System.out.println("加入超級阿文");
+		hmap.put("超級阿文", "肥宅");
+		System.out.println("移除阿文");
+		hmap.remove("阿文");
+		
+		System.out.println("hmap 的集合內容: "+hmap);
+	}
+}

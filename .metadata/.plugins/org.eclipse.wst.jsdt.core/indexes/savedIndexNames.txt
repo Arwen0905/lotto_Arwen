@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\weng7\Desktop\lotto_Arwen\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2045159536.index
+1426938356.index
+3015791994.index
+1337522193.index
+2383868894.index
+2248545220.index
