@@ -1,26 +1,32 @@
-package Lotto649_Package;
+package com.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Lotto649_Package.lotto649_Sqlite;
+/**
+ * Servlet implementation class Servlet_Test
+ */
+@WebServlet("/MyServlet")
+public class MyServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MyServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-@WebServlet("/servlet_test")
-public class servlet_test extends HttpServlet {
-
-
-
-//	=========================================================================================================
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -59,8 +65,7 @@ public class servlet_test extends HttpServlet {
          * 返回*/
         String []nar = {"22","31","34","9","12","15"};
         String n0[] = {n1,n2,n3,n4,n5,n6};
-        lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
-        lottoGo.detect();
+
         
         PrintWriter out = response.getWriter();
 //        在字串的位置可以改成html程式碼，即能打印出一個網頁
@@ -73,4 +78,5 @@ public class servlet_test extends HttpServlet {
 
 		doGet(request, response);
 	}
+
 }

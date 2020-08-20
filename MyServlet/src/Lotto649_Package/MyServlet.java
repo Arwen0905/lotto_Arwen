@@ -66,8 +66,8 @@ public class MyServlet extends HttpServlet {
          * 返回*/
         String []nar = {"22","31","34","9","12","15"};
         String n0[] = {n1,n2,n3,n4,n5,n6};
-//        lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
-//        lottoGo.detect();
+        lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
+        lottoGo.detect();
         
         PrintWriter out = response.getWriter();
 //        在字串的位置可以改成html程式碼，即能打印出一個網頁
