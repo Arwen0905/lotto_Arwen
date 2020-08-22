@@ -1,11 +1,14 @@
 package Lotto649_Package;
 
 import java.sql.*;
+
 import java.util.TreeMap;
 public class lotto649_MySQL {
-
-	    public static void main(String[] args) {
-	    	
+		public static String []useLotto;
+		public lotto649_MySQL(String ar[]){
+			useLotto = ar;
+		}
+		public void detect() {
 			TreeMap<String,String> lottoData = new TreeMap<>();
 
 	        try {
@@ -28,12 +31,59 @@ public class lotto649_MySQL {
 	        }catch(Exception e) {
 	        	System.err.println(e);
 	        }
-	        
-	        
+	        // 樂透獎號 ansLotto
+	        String ansLotto[] = new String[7];
+	        TreeMap<String,String> ansData = new TreeMap<>();
+			int bonusAll = 0;
+			
+			//每一期比對都會從這開始
 			for(String key : lottoData.keySet()){
 				String value = lottoData.get(key);
-				System.out.println(key+value);
+
+				ansLotto = value.split(",");
+				
+			boolean ticket = true;
+			
+			//先檢查玩家輸入的獎號有沒有重複
+			for(int i=0; i<6; i++) {
+				for(int j=0; j<i; j++) {
+					if(useLotto[i].equals(useLotto[j])) {
+						System.out.println("數值重複，取消交易");
+						ticket = false;
+					}
+				}
 			}
-	        
+			int bonusCheck = 0;	
+			//沒有重複才會進行比對資格 否則下一組
+			if(ticket) {
+				for(int i=0; i<7; i++) {
+					for(int j=0; j<6; j++) {
+						if(ansLotto[i].equals(useLotto[j])) {
+							bonusCheck+=1;
+							System.out.print(useLotto[j]+" 獎號符合！");
+							System.out.println("累積 "+bonusCheck+" 個");
+						}
+					}
+				}
+				if(bonusCheck>=3) {
+					ansData.put(key, value);
+					bonusAll+=1;
+				}else {
+					System.out.println(key);
+					System.out.println("可惜！沒有中獎，下去領500");
+				}
+			}
+			
+			}
+
+			System.out.println("中獎 - 獎號: "+ansData);
+			System.out.println("中獎 - 總數: "+bonusAll);
+
+		}
+	    public static void main(String[] args) {
+//			String nar[] = {"36","15","14","41","49","45"};
+			String nar[] = {"7","30","32","44","48","49"};
+			lotto649_MySQL a1 = new lotto649_MySQL(nar);
+			a1.detect();
 	    }
 }

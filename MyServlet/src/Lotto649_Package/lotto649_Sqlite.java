@@ -7,17 +7,17 @@ public class lotto649_Sqlite {
 
 		public static String [] userLotto;
 		
-		lotto649_Sqlite(String[]ar){
+		lotto649_Sqlite(String ar[]){
 			userLotto = ar;
 		}
 		public void detect() {
-			String year = "2019";
+			String year = "2014";
 	    	TreeMap<String,String> lottoData = new TreeMap<>();
 	    	TreeMap<String,String> ansData = new TreeMap<>();
 	    	
 	    	
 	        try {
-	           String url = "jdbc:sqlite:../JAVA_sql/lotto649_BrowserDB.db";
+	           String url = "jdbc:sqlite:../build/lotto649_BrowserDB.db";
 	           Connection conn = DriverManager.getConnection(url);
 	           
 	           String query = "SELECT * FROM lotto649_"+year;
@@ -37,7 +37,7 @@ public class lotto649_Sqlite {
 	        }
 	        
 	        // todo.. 使用者的樂透號碼
-			String [] ansLotto = new String[7];
+			String ansLotto[] = new String[7];
 			int bonus = 0;
 
 	        
@@ -75,16 +75,16 @@ public class lotto649_Sqlite {
 				if(checkbonus>=3){
 					bonus += 1;
 					ansData.put(key, value);
-					System.out.println("恭喜中獎!本組[ " + userLotto + " ]獎號共符合" + checkbonus + "個號碼\n");
+					System.out.println("恭喜中獎! " +key+ "\n獎號 "+value+" 共符合" + checkbonus + "個號碼\n");
 				}else{
 					System.out.println("可惜！沒有中獎，下去領500\n");
 				}
 	        }
-	        System.out.println(year+"中獎 - 總數: "+bonus);
 	        System.out.println(year+"中獎 - 期號: "+ansData);
+	        System.out.println(year+"中獎 - 總數: "+bonus);
 		}
 	    public static void main(String[] args) {
-	    	String []nar = {"22","31","34","9","12","15"};
+	    	String nar[] = {"22","31","34","9","12","15"};
 	    	lotto649_Sqlite a1 = new lotto649_Sqlite(nar);
 	    	a1.detect();
 	        
