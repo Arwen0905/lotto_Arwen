@@ -3,6 +3,10 @@ package Lotto649_Package;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,11 +68,12 @@ public class MyServlet extends HttpServlet {
 
 /**		=================================================================
          * 返回*/
+
         String []nar = {"22","31","34","9","12","15"};
         String n0[] = {n1,n2,n3,n4,n5,n6};
         lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
         lottoGo.detect();
-        
+
         PrintWriter out = response.getWriter();
 //        在字串的位置可以改成html程式碼，即能打印出一個網頁
         String title = "資料回應";

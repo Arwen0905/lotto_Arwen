@@ -26,24 +26,10 @@
 	
 	<div>
 		<label class="checkbox">
-			<input type="checkbox" name="v" value="aaa">a
-			<input type="checkbox" name="v" value="bbb">b
-			<input type="checkbox" name="v" value="ccc">c
+			<input type="checkbox" checked name="v" value="a">a
 		</label>
 	</div>
 	</form>
 
-	<script type="text/javascript">
-		$.ajax({
-			method:"get",
-			url:"MyServlet",
-			data:{
-				name:"john",
-				age:"30"
-			}
-		}).done(function(msg){
-			alert("data:"+ msg)
-		})
-	</script>
 </body>
 </html>

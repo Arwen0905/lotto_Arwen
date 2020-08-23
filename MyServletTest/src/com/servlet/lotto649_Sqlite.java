@@ -1,4 +1,4 @@
-package Lotto649_Package;
+package com.servlet;
 
 import java.sql.*;
 import java.util.TreeMap;
@@ -83,11 +83,11 @@ public class lotto649_Sqlite {
 	        System.out.println(year+"中獎 - 期號: "+ansData);
 	        System.out.println(year+"中獎 - 總數: "+bonus);
 		}
-//	    public static void main(String[] args) {
-//	    	String nar[] = {"22","31","34","9","12","15"};
-//	    	lotto649_Sqlite a1 = new lotto649_Sqlite(nar);
-//	    	a1.detect();
-//	        
-//	    }
+	    public static void main(String[] args) {
+	    	String nar[] = {"22","31","34","9","12","15"};
+	    	lotto649_Sqlite a1 = new lotto649_Sqlite(nar);
+	    	a1.detect();
+	        
+	    }
 }
 

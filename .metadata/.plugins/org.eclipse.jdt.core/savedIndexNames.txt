@@ -2,7 +2,6 @@ INDEX VERSION 1.131+C:\Users\user\Desktop\lotto_Arwen\.metadata\.plugins\org.ecl
 861840987.index
 2330079598.index
 3441956336.index
-1945882691.index
 216084881.index
 3944740684.index
 2017944564.index
