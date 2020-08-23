@@ -81,7 +81,7 @@ public class MyServlet extends HttpServlet {
         MyServlet.sql();
         String []nar = {"22","31","34","9","12","15"};
         String n0[] = {n1,n2,n3,n4,n5,n6};
-        lotto649_Sqlite lottoGo = new lotto649_Sqlite(n0);
+        lotto649_MySQL lottoGo = new lotto649_MySQL(n0);
         lottoGo.detect();
         
         PrintWriter out = response.getWriter();

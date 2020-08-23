@@ -42,9 +42,9 @@ public class LoginServlet extends HttpServlet {
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
         
 //		request.getRequestDispatcher("index.jsp").forward(request, response);
-        String s1[] = request.getParameterValues("v");
+        String s1 = request.getParameter("v");
 		response.getWriter().println("<H1>§A¦n!</H1>");
-		response.getWriter().println("<H1>checkbox:"+s1[0]+s1[1]+s1[2]+"</H1>");
+		response.getWriter().println("<H1>checkbox:"+s1+"</H1>");
 		doGet(request, response);
 	}
 
