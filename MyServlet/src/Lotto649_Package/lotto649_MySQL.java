@@ -13,8 +13,8 @@ public class lotto649_MySQL {
 
 	        try {
 	           Connection conn = DriverManager.getConnection(
-	        		   "jdbc:mysql://localhost/lotto649?serverTimezone=UTC","root","root");
-	           String query = "SELECT * FROM lotto649_2014";
+	        		   "jdbc:mysql://localhost:3307/lotto649?serverTimezone=UTC","root","root");
+	           String query = "SELECT * FROM lotto649_2019";
 	           
 	           Statement stmt = conn.createStatement();
 	           ResultSet rs = stmt.executeQuery(query);

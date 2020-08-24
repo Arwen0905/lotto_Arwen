@@ -1,4 +1,4 @@
-package com.servlet;
+package Lotto649_Test;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

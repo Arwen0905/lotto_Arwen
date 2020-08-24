@@ -1,4 +1,6 @@
 INDEX VERSION 1.131
+C:\Users\user\Desktop\lotto_Arwen\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\496280611.index
+\MyServletTest\src
 C:\Users\user\Desktop\lotto_Arwen\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4200035777.index
 \MyServlet\src
 C:\Users\user\Desktop\lotto_Arwen\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1383503948.index

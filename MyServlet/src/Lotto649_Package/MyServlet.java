@@ -35,6 +35,7 @@ public class MyServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
 
 	/**
@@ -63,19 +64,18 @@ public class MyServlet extends HttpServlet {
         String n5 = request.getParameter("n5");
         String n6 = request.getParameter("n6");
         
+        String n0[] = {n1,n2,n3,n4,n5,n6};
+        lotto649_MySQL lottoGo = new lotto649_MySQL(n0);
+        lottoGo.detect();
+        
         System.out.println("MyServlet.java:頁面取得資料：");
         System.out.println(n1+" "+n2+" "+n3+" "+n4+" "+n5+" "+n6);
-
 /**		=================================================================
          * 返回*/
 
-        String []nar = {"22","31","34","9","12","15"};
-        String n0[] = {n1,n2,n3,n4,n5,n6};
-        lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
-        lottoGo.detect();
 
-        PrintWriter out = response.getWriter();
 //        在字串的位置可以改成html程式碼，即能打印出一個網頁
+        PrintWriter out = response.getWriter();
         String title = "資料回應";
         String docType = "<!DOCTYPE html> \n";
         out.println(

@@ -7,17 +7,15 @@ public class qqq {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:sqlite:../build/lotto649_BrowserDB.db");
+		    String url =  "jdbc:mysql://localhost:3307/lotto649?serverTimezone=UTC";
+		    Connection conn = DriverManager.getConnection(url,"root","root");
+
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM lotto649_2014");
 			while(rs.next()) {
-				System.out.println(rs.getInt("期別"));
+				System.out.println(rs.getString("開獎日期"));
 			}
 		} catch (Exception e) {}
-//      String []nar = {"2","8","27","40","41","47"};
-////      lotto649_MySQL lottoGo = new lotto649_MySQL(nar);
-//      lotto649_Sqlite lottoGo = new lotto649_Sqlite(nar);
-//      lottoGo.detect();
       
 	}
 
