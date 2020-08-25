@@ -10,8 +10,6 @@
 <jsp:useBean id="userName" class="Lotto649_Test.UserBean" scope="session" />
 <h1>從 Servlet 傳來的 UserBean.userName 訊息</h1>
 <% String na = userName.getUserName(); %>
-
-<%= na %>
-
+<h1><%= na %></h1>
 </body>
 </html>

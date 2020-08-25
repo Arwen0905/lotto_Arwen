@@ -7,8 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:useBean id="myname" class="Lotto649_Test.Login_Servlet" scope="session"></jsp:useBean>
-<%=request.getAttribute("myname") %>
-<h1>¦¨¥\µn¿ý¡I</h1>
+	<h1>
+		<%=request.getServletContext().getInitParameter("ERROR")%>
+	</h1>
+	<form action='Home.jsp'>
+		<input name="button" type="submit" id="button" value="Home">
+	</form>
 </body>
 </html>

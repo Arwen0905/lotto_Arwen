@@ -1,21 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 <jsp:useBean id="userBean" class="Lotto649_Test.UserBean" scope="session"/>
-<jsp:setProperty name="userBean" property="userName" value="ªü¤å"/>
+<jsp:setProperty name="userBean" property="userName" value="å°å¤«"/>
 <jsp:getProperty name="userBean" property="userName"/>
-<h1>¨ú±o·í«e©m¦W<br><%= userBean.getUserName() %></h1>
-<h1>¤­¬í«á¡A§ó·s­¶­±</h1>
-<% response.setHeader("Refresh", "5; url=helloUser.jsp"); %>
+
+<h1>ç•¶å‰å§“å<br><%= userBean.getUserName() %></h1>
+
 <form action="User_Servlet" method="post">
-	<input type="text" name="UU" value="<%=userBean.getUserName()%>">³]©w©m¦W¡G
-	<input type="submit" name="UU" value="Submit">
+	<h1>è¨­å®šå§“åï¼š</h1>
+	<input type="text" name="UU">
+	<input type="submit" value="Submit">
 </form>
+
 </body>
 </html>

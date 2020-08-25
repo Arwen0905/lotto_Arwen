@@ -8,7 +8,9 @@
 </head>
 <body>
  <h1>從Servlet 傳過來的訊息:</h1>
- <% String msg = (String)request.getAttribute("message"); %>>
- <%= msg %>>
+<jsp:useBean id="aaa" class="Lotto649_Test.AgeBean" scope="session"/>
+ <h1>重新設定的年齡：</h1>
+ <% int ag = aaa.getAge(); %>
+ <h1><%= aaa.getAge() %></h1>
 </body>
 </html>
