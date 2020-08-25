@@ -32,7 +32,7 @@ id="WebApp_ID" version="4.0" >
 
   <context-param>
 		<param-name>ERROR</param-name>
-		<param-value>請重新確認帳號密碼</param-value>
+		<param-value>帳號密碼 錯誤</param-value>
   </context-param>
       
 </web-app>

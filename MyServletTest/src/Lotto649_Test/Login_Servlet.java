@@ -22,8 +22,9 @@ public class Login_Servlet extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	  	//也可以在Servlet取出context-param,再由JSP取出
-	  	//String strError = getServletContext().getInitParameter("Error");
+		response.setContentType("text/html;charset=utf-8");
+        request.setCharacterEncoding("UTF-8");
+        
 	  	//JSP輸入的帳號密碼
 	  	String name = request.getParameter("name");
 	  	String password= request.getParameter("mypassword");
@@ -36,17 +37,20 @@ public class Login_Servlet extends HttpServlet {
 	  	{
 		  	System.out.println("登入成功!");	
 	  		request.setAttribute("myname",name);
-	  		System.out.println(request.getAttribute("myname"));
 	  		request.getRequestDispatcher("index.jsp").forward(request, response); 
 	  		return;
 	  	}
 	  	else
 	  	{
-	  		//也可以在Servlet取出context-param,再由JSP取出
-	  		//request.setAttribute("strMsg",strError);
 		  	System.out.println(name);
 		  	System.out.println(password);
-	  		request.getRequestDispatcher("ErrorPage.jsp").forward(request, response);
+		  	
+		  	//可以在Servlet取出context-param,再由JSP取出
+	  		String strError = getServletContext().getInitParameter("ERROR");
+	  		request.setAttribute("strMsg",strError);
+		  	System.out.println(request.getAttribute("strMsg"));
+		  	
+	  		request.getRequestDispatcher("Home.jsp").forward(request, response);
 	  	}
 	  	doGet(request, response);
 

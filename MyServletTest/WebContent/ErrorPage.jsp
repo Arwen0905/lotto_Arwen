@@ -8,10 +8,11 @@
 </head>
 <body>
 	<h1>
-		<%=request.getServletContext().getInitParameter("ERROR")%>
+		<%=request.getAttribute("strMsg")%>
 	</h1>
 	<form action='Home.jsp'>
 		<input name="button" type="submit" id="button" value="Home">
 	</form>
+
 </body>
 </html>
