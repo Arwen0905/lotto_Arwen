@@ -7,8 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:useBean id="myname" class="Lotto649_Test.Login_Servlet" scope="session"></jsp:useBean>
-<h1>登錄成功！進入遊戲中...</h1>
-<% response.setHeader("Refresh", "2; url=index.html"); %>
+	<h1>
+		<%=request.getAttribute("strMsg")%>
+	</h1>
+	<form action='Home.jsp'>
+		<input name="button" type="submit" id="button" value="Home">
+	</form>
+
 </body>
 </html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/lib/lodash.min.js"></script>
+    <title>Let-setTimeout</title>
+    <style>
+      * {
+        margin: 0;
+      }
+      .rect {
+        margin: auto;
+        width: 900px;
+        height: 900px;
+        background: skyblue;
+        position: relative;
+        padding: 10px;
+        font-family: 微軟正黑體;
+        font-size: 48px;
+      }
+      .ball {
+        position: absolute;
+        color: white;
+        background-color: #f24;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        font-weight: bold;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rect">
+      <input id="my_in" type="number"/>
+      <button onclick="out()">click</button>
+      <div id="my_out"></div>
+    </div>
+
+    <script>
+      // 實做 技能冷卻機制
+      // 效果為輸入數字即倒數秒數，完成後重整
+      "use strict";
+      let rect = document.querySelector(".rect");
+      let i, k, ar, ob, a, b, c;
+      let my_out = document.querySelector("#my_out");
+      let my_in = document.querySelector("#my_in");
+
+      function out() {
+          let n = parseInt(my_in.value)+1 //閉包次數、偏差值
+          for (let i = 0; i <= my_in.value; i++) { //進行迴圈
+          setTimeout(function() {
+              n-- //閉包進步式
+              if (n<=0) { rect.innerHTML = '冷卻完成'//※單純用if限制一個結果
+              setTimeout(function(){
+                window.location.reload() //重整
+              },1000)
+            } else //未達到條件前所進行的動作
+              rect.innerHTML = my_in.value-- + "<br>";
+            }, 1000 * i); //秒數成長
+        }
+      }
+
+      //   function myClick(){
+      //       for(let i = input; i>=0; i--){
+      //           setTimeout(()=>{
+      //               rect.innerHTML += i +'<br>'
+      //             },1000*i)
+      //         }
+      //     }
+    </script>
+  </body>
+</html>

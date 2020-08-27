@@ -7,11 +7,15 @@
 <style type="text/css">
 *{
 font-family: "微軟正黑體";
+font-family: Arial, Helvetica, sans-serif,'微軟正黑體';
 font-size: 24px;
+position: relative;
 }
-.wrapper{
+#wrapper{
+	display: flex;
+}
+.lotto649{
 width: 600px;
-
 border: 5px solid #ff2244;
 padding: 20px;
 background: #eeeeee;
@@ -50,40 +54,48 @@ margin: 5px;
 	padding: 10px;
 	/* background: #ffaacc; */
 }
+#viewRight{
+	width: 600px;
+	border: 5px solid #2244ff;
+	padding: 20px;
+	background: #999;
+}
 </style>
 </head>
 <body>
+<div id="wrapper">
+	<div class="lotto649">
+		<h1 id="wen" onclick="javascript:window.location.reload()" title="重新整理">Hello World</h1>
+		<input class="btn" value="官方網站" type="button" onclick="window.open('https://www.taiwanlottery.com.tw/lotto/lotto649/history.aspx','_blank')" />
+		<a id="url_lotto" href="https://www.taiwanlottery.com.tw/lotto649/index.asp" target="_blank">遊戲規則</a>
 
-<div class="wrapper">
-	<h1 id="wen" onclick="javascript:window.location.reload()" title="重新整理">Hello World</h1>
-	<input class="btn" value="官方網站" type="button" onclick="window.open('https://www.taiwanlottery.com.tw/lotto/lotto649/history.aspx','_blank')" />
-	<a id="url_lotto" href="https://www.taiwanlottery.com.tw/lotto649/index.asp" target="_blank">遊戲規則</a>
+		<h2>準備好了嗎 ?</h2>
+	<button class="lucky">提升幸運值</button>
+	<button id="pred_btn">幸運轉蛋</button>
+	<p class="up">祝您好運</p>
 
-	<h2>準備好了嗎 ?</h2>
-<button class="lucky">提升幸運值</button>
-<button id="pred_btn">幸運轉蛋</button>
-<p class="up">祝您好運</p>
+		<form id="formNum_main" action="MyServlet" method=post>
+				<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
+				<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
+				<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
+				<select onchange="handler_form(this)" name="n4" class="selectNum4"> </select>
+				<select onchange="handler_form(this)" name="n5" class="selectNum5"> </select>
+				<select onchange="handler_form(this)" name="n6" class="selectNum6"> </select>
+				<br><br>
+				<!-- 開獎欄位 -->
+				<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
+				<!-- 送出資料 -->
+				<input class="btn" id="submit_btn" name="submit" type="button" value="開獎">
+		</form>
+		<br>
+		<!-- 預測碼功能: 無限期維修中 -->
+		<button name="predict_Num" class="predict_Num">專屬預測號碼!</button>
+		<button name="predict_Go" class="predict_Go">確定</button>
 
-	<form id="formNum_main" action="MyServlet" method=post>
-	    	<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
-	    	<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
-	    	<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
-	    	<select onchange="handler_form(this)" name="n4" class="selectNum4"> </select>
-	    	<select onchange="handler_form(this)" name="n5" class="selectNum5"> </select>
-			<select onchange="handler_form(this)" name="n6" class="selectNum6"> </select>
-			<br><br>
-			<!-- 開獎欄位 -->
-			<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
-			<!-- 送出資料 -->
-	        <input class="btn" id="submit_btn" name="submit" type="submit" value="開獎">
-	</form>
-	<br>
-	<!-- 預測碼功能: 無限期維修中 -->
-	<button name="predict_Num" class="predict_Num">專屬預測號碼!</button>
-	<button name="predict_Go" class="predict_Go">確定</button>
-
-	<div class="ansText"></div>
-
+		<div class="ansText"></div>
+	</div>
+	<div id="viewRight"></div>
+</div>
 	<script type="text/javascript">
 	let wen = document.querySelector('#wen')
 	let selectNum1 = document.querySelector('.selectNum1')
@@ -98,6 +110,7 @@ margin: 5px;
 	let formNum_main = document.querySelector('#formNum_main')
 	let submit_btn = document.querySelector('#submit_btn')
 	let ansText = document.querySelector('.ansText')
+	let viewRight = document.querySelector('#viewRight')
 	
 	// 預測碼功能(更新中) todo.. ======================================================
 	
@@ -144,19 +157,28 @@ margin: 5px;
 		predict_Num.onclick()
 	}
 
-	// =======================================================================
+// ===========================================================================================================================
+	function getData(){
+		let req = new XMLHttpRequest()
+		req.open("get","Home.jsp")
+		req.onload = function(){
+			viewRight.innerHTML = this.responseText
+		}
+		req.send()
+	}
+// ===========================================================================================================================
 
 	// 開獎按鈕: 檢測重複號碼
 	submit_btn.onclick = function(){
-		c = [currentNum()] // 取得當前值(通用函式)
+		c = currentNum() // 取得當前值(通用函式)
 		checkNum = c.toString().split(',')
-		
+		// getData() // Ajax測試
 		ticket = true // 對獎門票
 		for(i=0; i<6; i++){
 			for(j=0; j<i; j++){
 				if(checkNum[i]==checkNum[j]){
 					wen.innerHTML = "號碼重複，請重新設定"
-					ansText.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
+					viewRight.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
 					ticket = false // 有重複值就沒收門票
 					break // 終止對獎
 				}
@@ -178,14 +200,14 @@ margin: 5px;
 			for(j=0; j<6; j++){
 				if(checkNum[j]==ansCurrent[i]){
 					checkCount+=1
-					ansText.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
+					viewRight.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
 				}
 			}
 		}
 		if(checkCount>=3){
-			ansText.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
+			viewRight.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
 		}else{
-			ansText.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
+			viewRight.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
 		}
 	}
 
@@ -304,7 +326,7 @@ margin: 5px;
 	 
     </script>
 	
-</div>
+
 
 </body>
 </html>

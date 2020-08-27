@@ -5,6 +5,8 @@ import java.sql.*;
 import java.util.TreeMap;
 public class lotto649_MySQL {
 		public static String []useLotto;
+		public static TreeMap<String,String> ansData;
+		
 		public lotto649_MySQL(String ar[]){
 			useLotto = ar;
 		}
@@ -33,9 +35,11 @@ public class lotto649_MySQL {
 	        }
 	        // 樂透獎號 ansLotto
 	        String ansLotto[] = new String[7];
-	        TreeMap<String,String> ansData = new TreeMap<>();
+//	        TreeMap<String,String> ansData = new TreeMap<>();
+	        ansData = new TreeMap<>();
+	        
 			int bonusAll = 0;
-			
+
 			//每一期比對都會從這開始
 			for(String key : lottoData.keySet()){
 				String value = lottoData.get(key);
@@ -78,12 +82,11 @@ public class lotto649_MySQL {
 
 			System.out.println("中獎 - 獎號: "+ansData);
 			System.out.println("中獎 - 總數: "+bonusAll);
-
+			this.ansData = ansData;
 		}
-	    public static void main(String[] args) {
-//			String nar[] = {"36","15","14","41","49","45"};
-			String nar[] = {"7","30","32","44","48","49"};
-			lotto649_MySQL a1 = new lotto649_MySQL(nar);
-			a1.detect();
-	    }
+//	    public static void main(String[] args) {
+//			String nar[] = {"7","30","32","44","48","49"};
+//			lotto649_MySQL a1 = new lotto649_MySQL(nar);
+//			a1.detect();
+//	    }
 }

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/lib/lodash.min.js"></script>
+    <title>nomouseDown</title>
+    <style>
+      .rect {
+        margin: auto;
+        width: 900px;
+        height: 900px;
+        background: skyblue;
+        position: relative;
+        padding: 10px;
+        font-family: 微軟正黑體;
+        font-size: 48px;
+      }
+      .ball {
+        position: absolute;
+        color: white;
+        background-color: #f24;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #000;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 50px;
+        font-weight: bold;
+        font-size: 12px;
+      }
+      .btn{
+        width: 100px;
+        height: 50px;
+        font-size: 36px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rect">
+      <button class="btn" onclick="count1()" onmousedown="count()" onmouseup="countUp()">+</button>
+                        <!-- onclick會影響長按事件的觸發機制 -->
+      <div id="my_out">0</div>
+      <button class="btn" onclick="count2()">-</button>
+      <input type="button" onmousedown="holdDown()" onmouseup="holdUp()" value="滑鼠長按" />
+    </div>
+    
+    <script>
+      // 實做 技能冷卻機制
+      // 效果為輸入數字即倒數秒數，完成後重整
+      // "use strict";
+      let rect = document.querySelector(".rect");
+      let i, k, ar, ob, a, b, c;
+      let my_out = document.querySelector("#my_out");
+      let n = 0
+      let startTime,endTime,Time,now //此刻、長按時間點、形參
+      let btn = document.querySelector('.btn')
+
+      function timeNow(){ //獲取此刻時間
+        now = new Date()
+        return now.getTime()}
+      
+      function count()
+      {
+          startTime = timeNow()//滑鼠按下時間
+        Time = setInterval(function(){ //每100毫秒執行一次
+          endTime = timeNow()//所以每100毫秒抓取一次時間
+
+          if(endTime-startTime>1000)//此刻時間與按下時間差有1000毫秒觸發
+          {
+            n++
+            my_out.innerHTML = n
+          }
+        },100)
+      }
+
+      function countUp()
+      {
+        clearInterval(Time) //當滑鼠離開，即終止長按效果
+      }
+      
+      
+      function count1(){
+        // n++ 有發現順序的問題，若在inner上會有非即時的問題
+        n++
+        my_out.innerHTML = n
+      }
+
+      function count2(){
+        n--
+        my_out.innerHTML = n
+      }
+    </script>
+  </body>
+</html>

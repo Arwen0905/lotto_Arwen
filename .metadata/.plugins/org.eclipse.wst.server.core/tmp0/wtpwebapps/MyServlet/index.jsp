@@ -9,11 +9,15 @@
 <style type="text/css">
 *{
 font-family: "微軟正黑體";
+font-family: Arial, Helvetica, sans-serif,'微軟正黑體';
 font-size: 24px;
+position: relative;
 }
-.wrapper{
+#wrapper{
+	display: flex;
+}
+.lotto649{
 width: 600px;
-
 border: 5px solid #ff2244;
 padding: 20px;
 background: #eeeeee;
@@ -52,40 +56,50 @@ margin: 5px;
 	padding: 10px;
 	/* background: #ffaacc; */
 }
+#viewRight{
+	width: 600px;
+	border: 5px solid #2244ff;
+	padding: 20px;
+	background: #999;
+}
 </style>
 </head>
 <body>
+<div id="wrapper">
+	<div class="lotto649">
+		<h1 id="wen" onclick="javascript:window.location.reload()" title="重新整理">Hello World</h1>
+		<input class="btn" value="官方網站" type="button" onclick="window.open('https://www.taiwanlottery.com.tw/lotto/lotto649/history.aspx','_blank')" />
+		<a id="url_lotto" href="https://www.taiwanlottery.com.tw/lotto649/index.asp" target="_blank">遊戲規則</a>
 
-<div class="wrapper">
-	<h1 id="wen" onclick="javascript:window.location.reload()" title="重新整理">Hello World</h1>
-	<input class="btn" value="官方網站" type="button" onclick="window.open('https://www.taiwanlottery.com.tw/lotto/lotto649/history.aspx','_blank')" />
-	<a id="url_lotto" href="https://www.taiwanlottery.com.tw/lotto649/index.asp" target="_blank">遊戲規則</a>
+		<h2>準備好了嗎 ?</h2>
+	<button class="lucky">提升幸運值</button>
+	<button id="pred_btn">幸運轉蛋</button>
+	<p class="up">祝您好運</p>
 
-	<h2>準備好了嗎 ?</h2>
-<button class="lucky">提升幸運值</button>
-<button id="pred_btn">幸運轉蛋</button>
-<p class="up">祝您好運</p>
+		<form id="formNum_main" action="MyServlet" method=post>
+				<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
+				<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
+				<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
+				<select onchange="handler_form(this)" name="n4" class="selectNum4"> </select>
+				<select onchange="handler_form(this)" name="n5" class="selectNum5"> </select>
+				<select onchange="handler_form(this)" name="n6" class="selectNum6"> </select>
+				<br><br>
+				<!-- 開獎欄位 -->
+				<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
+				<!-- 送出資料 -->
+				<input onClick="sendInfo()" class="btn" id="submit_btn" name="submit" type=submit value="開獎">
+		</form>
+		<br>
+		<!-- 預測碼功能: 無限期維修中 -->
+		<button name="predict_Num" class="predict_Num">專屬預測號碼!</button>
+		<button name="predict_Go" class="predict_Go">確定</button>
 
-	<form id="formNum_main" action="index.jsp" method="post">
-	    	<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
-	    	<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
-	    	<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
-	    	<select onchange="handler_form(this)" name="n4" class="selectNum4"> </select>
-	    	<select onchange="handler_form(this)" name="n5" class="selectNum5"> </select>
-			<select onchange="handler_form(this)" name="n6" class="selectNum6"> </select>
-			<br><br>
-			<!-- 開獎欄位 -->
-			<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
-			<!-- 送出資料 -->
-	        <input class="btn" id="submit_btn" name="submit" type="submit" value="開獎">
-	</form>
-	<br>
-	<!-- 預測碼功能: 無限期維修中 -->
-	<button name="predict_Num" class="predict_Num">專屬預測號碼!</button>
-	<button name="predict_Go" class="predict_Go">確定</button>
+		<div class="ansText"></div>
+	</div>
+	<div id="viewRight">
 
-	<div class="ansText"></div>
-
+	</div>
+</div>
 	<script type="text/javascript">
 	let wen = document.querySelector('#wen')
 	let selectNum1 = document.querySelector('.selectNum1')
@@ -100,6 +114,7 @@ margin: 5px;
 	let formNum_main = document.querySelector('#formNum_main')
 	let submit_btn = document.querySelector('#submit_btn')
 	let ansText = document.querySelector('.ansText')
+	let viewRight = document.querySelector('#viewRight')
 	
 	// 預測碼功能(更新中) todo.. ======================================================
 	
@@ -110,16 +125,16 @@ margin: 5px;
 	let count = 0
 	
 	// 取10期獎號作比對樣本
-	let ans1 = ["19","45","44","09","06","40","01"]
-	let ans2 = ["31","01","11","33","05","19","06"]
+	let ans1 = ["19","45","44","9","6","40","1"]
+	let ans2 = ["31","1","11","33","5","19","6"]
 	let ans3 = ["45","19","18","16","33","17","25"]
-	let ans4 = ["35","08","23","22","29","10","02"]
-	let ans5 = ["37","21","35","20","02","24","09"]
-	let ans6 = ["25","36","03","33","16","31","14"]
-	let ans7 = ["30","25","15","05","41","06","29"]
-	let ans8 = ["49","29","32","10","04","24","43"]
-	let ans9 = ["05","04","22","49","27","46","41"]
-	let ans10 = ["46","04","44","34","22","17","13"]
+	let ans4 = ["35","8","23","22","29","10","2"]
+	let ans5 = ["37","21","35","20","2","24","9"]
+	let ans6 = ["25","36","3","33","16","31","14"]
+	let ans7 = ["30","25","15","5","41","6","29"]
+	let ans8 = ["49","29","32","10","4","24","43"]
+	let ans9 = ["5","4","22","49","27","46","41"]
+	let ans10 = ["46","4","44","34","22","17","13"]
 	let ansAll = [ans1,ans2,ans3,ans4,ans5,ans6,ans7,ans8,ans9,ans10]
 	
 	// 開獎號碼
@@ -146,19 +161,28 @@ margin: 5px;
 		predict_Num.onclick()
 	}
 
-	// =======================================================================
+// Ajax ===========================================================================================================================
+	function getData(){
+		let req = new XMLHttpRequest()
+		req.open("get","MyServlet")
+		req.onload = function(){
+			viewRight.innerHTML = this.responseText
+		}
+		req.send()
+	}
+// ===========================================================================================================================
 
 	// 開獎按鈕: 檢測重複號碼
 	submit_btn.onclick = function(){
-		c = [currentNum()] // 取得當前值(通用函式)
+		c = currentNum() // 取得當前值(通用函式)
 		checkNum = c.toString().split(',')
-		
+		//getData() // Ajax測試
 		ticket = true // 對獎門票
 		for(i=0; i<6; i++){
 			for(j=0; j<i; j++){
 				if(checkNum[i]==checkNum[j]){
 					wen.innerHTML = "號碼重複，請重新設定"
-					ansText.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
+					viewRight.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
 					ticket = false // 有重複值就沒收門票
 					break // 終止對獎
 				}
@@ -180,14 +204,14 @@ margin: 5px;
 			for(j=0; j<6; j++){
 				if(checkNum[j]==ansCurrent[i]){
 					checkCount+=1
-					ansText.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
+					viewRight.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
 				}
 			}
 		}
 		if(checkCount>=3){
-			ansText.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
+			viewRight.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
 		}else{
-			ansText.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
+			viewRight.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
 		}
 	}
 
@@ -212,9 +236,7 @@ margin: 5px;
 	function roll(){
 		for(i=0; i<6; i++){
 			let k = Math.round(Math.random()*48)+1
-			if(k<10){ // 補0
-				k = "0"+k
-			}
+			//if(k<10){k = "0"+k}
 			ar.push(k)
 			for(j=0; j<i; j++){
 				if(ar[j]==k){
@@ -240,9 +262,7 @@ margin: 5px;
 	 function roll_col(arc,v){ // ( 被修改 , 欲修改 )
 		 arc.innerHTML = ''
 		 for(i=1; i<50; i++){
-		    	if(i<10){
-					i = "0"+i // 補0
-				}
+		    	//if(i<10){i = "0"+i}
 		    	if(v == i){arc.innerHTML += "<option selected>"+i+"</option>"
 		    		}else{arc.innerHTML += "<option>"+i+"</option>"}
 		    	}
@@ -281,9 +301,7 @@ margin: 5px;
 	// 建構:建立 6組下選單欄位(49個號碼)
 	function constructor(){
 		for(var i=1; i<=49; i++){
-			if(i<10){ // 補0
-				i = "0"+i
-			}
+			//if(i<10){i = "0"+i}
 			if(ar[0] == i){
 				selectNum1.innerHTML += '<option selected>'+ i +'</option>'
 			}else{selectNum1.innerHTML += '<option>'+ i +'</option>'}
@@ -312,7 +330,7 @@ margin: 5px;
 	 
     </script>
 	
-</div>
+
 
 </body>
 </html>
@@ -328,6 +346,5 @@ margin: 5px;
    System.out.println("index.jsp:頁面取得資料：");
    System.out.println(n1+" "+n2+" "+n3+" "+n4+" "+n5+" "+n6);
 
-	
 %>
 
