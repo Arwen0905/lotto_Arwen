@@ -1,8 +1,8 @@
 package Lotto649_Package;
 
 import java.sql.*;
-
 import java.util.TreeMap;
+
 public class lotto649_MySQL {
 		public static String []useLotto;
 		public static TreeMap<String,String> ansData;
@@ -82,11 +82,13 @@ public class lotto649_MySQL {
 
 			System.out.println("中獎 - 獎號: "+ansData);
 			System.out.println("中獎 - 總數: "+bonusAll);
-			this.ansData = ansData;
 		}
+		
 //	    public static void main(String[] args) {
 //			String nar[] = {"7","30","32","44","48","49"};
 //			lotto649_MySQL a1 = new lotto649_MySQL(nar);
 //			a1.detect();
 //	    }
+		
+		
 }
