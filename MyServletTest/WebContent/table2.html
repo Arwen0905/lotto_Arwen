@@ -1,0 +1,31 @@
+<html>
+<head>
+<body>
+
+輸入id:<input type="text" class="t1" onkeyup="sendLotto()">
+<h2 id="tt">更新兩下</h2>
+</body>
+    <script>
+        var request;
+        function sendLotto() {
+            let url = "table2_DB.jsp?val=" + document.querySelector('.t1').value;
+
+            request = new XMLHttpRequest();
+
+            try {
+                request.onreadystatechange = getData;
+                request.open("GET", url, true);
+                request.send();
+            } catch (e) { alert("Unable to connect to server"); }
+        }
+
+        function getData() {
+        	tt = document.querySelector('#tt')
+            val = request.responseText;
+        	tt.innerHTML = val;
+        }
+
+    </script>
+</head>
+
+</html>

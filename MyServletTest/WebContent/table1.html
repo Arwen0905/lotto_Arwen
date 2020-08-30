@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>table1</title>
+<head>
+</head>
+<body>
+輸入期號：<input type="text" id="t1" name="TOT" onkeyup="sendLotto()">
+<h1 id="tt"></h1>
+<h1 id="tt2"></h1>
+    <script>
+        var request;
+        function sendLotto() {
+            url = "table1_DB.jsp?TOT=" + document.querySelector('#t1').value;
+            
+            request = new XMLHttpRequest();
+            
+            try {
+                request.onreadystatechange = getLotto;
+                request.open("GET", url, true);
+                request.send();
+            } catch (e) { alert("無法連結伺服器"); }
+        }
+		
+       	
+        function getLotto() {
+        	let tt = document.querySelector("#tt")
+        	let tt2 = document.querySelector("#tt2")
+        	rs = request.responseText
+        	rs = rs.split(",")
+            tt.innerHTML = rs[0]+rs[1];
+            tt2.innerHTML = rs[2]+rs[3];
+        }
+    </script>
+</body>
+
+</html>

@@ -1,13 +1,13 @@
 package Lotto649_Test;
 
 public class AgeBean {
-	 private int age;
+	 private String age;
 
-	 public int getAge() {
+	 public String getAge() {
 		 return this.age;
 	 }
 	 
-	 public void setAge(int age) {
+	 public void setAge(String age) {
 		 this.age = age;
 	 }
 	 

@@ -335,16 +335,3 @@ margin: 5px;
 </body>
 </html>
 
-<%
-   String n1 = request.getParameter("n1");
-   String n2 = request.getParameter("n2");
-   String n3 = request.getParameter("n3");
-   String n4 = request.getParameter("n4");
-   String n5 = request.getParameter("n5");
-   String n6 = request.getParameter("n6");
-   
-   System.out.println("index.jsp:頁面取得資料：");
-   System.out.println(n1+" "+n2+" "+n3+" "+n4+" "+n5+" "+n6);
-
-%>
-
