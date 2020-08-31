@@ -1,16 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
- <h1>±qServlet ¶Ç¹L¨Óªº°T®§:</h1>
-<jsp:useBean id="aaa" class="Lotto649_Test.AgeBean" scope="session"/>
- <h1>­«·s³]©wªº¦~ÄÖ¡G</h1>
- <% String ag = aaa.getAge(); %>
- <h1><%= ag %></h1>
+ <h1>è¨­å®šå¸³æˆ¶ï¼š</h1>
+<jsp:useBean id="QQ" class="Lotto649_Test.AgeBean" scope="session"/> 
+ <% String message = (String)session.getAttribute("sss");%>
+<jsp:setProperty name="QQ" property="age" value="<%= message %>"/>
+
+ <h1>ä½ çš„åå­—: <%= message %></h1>
+
+ <input onclick="jump()" type="button" value="è¿”å›">
+
+ <script>
+ function jump(){
+	 window.location = "TTT_Age.jsp"
+ }
+ </script>
 </body>
 </html>

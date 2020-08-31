@@ -27,13 +27,13 @@ id="WebApp_ID" version="4.0" >
 
   <servlet-mapping>
 	    <servlet-name>Login_Servlet</servlet-name>
-	    <url-pattern>/Home</url-pattern>
+	    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
   
   <context-param>
 		<param-name>ERROR</param-name>
-		<param-value>帳號密碼 錯誤</param-value>
+		<param-value>輸入錯誤，請重新輸入</param-value>
   </context-param>
       
 </web-app>

@@ -9,32 +9,45 @@
 </head>
 <body>
 <jsp:useBean id="emp" class="Lotto649_Test.AgeBean" scope="request"/>
-<jsp:setProperty name="emp" property="age" value="30" />
-	<h1>員工的年齡是:</h1> 
-<jsp:getProperty name="emp" property="age" />
-<form name="formAge">
-	<input type="text" name="age" value="123">
-	<input type="button" value="Click" onclick="ageAjax()">
+<jsp:setProperty name="emp" property="age"/>
+<h1>建立帳戶</h1> 
+
+<form name="ttt">
+	<input type="text" name='tt' onkeyup="AjaxSearch()" />
+	<input type="button" value="Click" onclick="AjaxSearch()"/>
 </form>
-<div class="t1"></div>
-<div class="t2"></div>
-<script type="text/javascript">
-let v = document.formAge.age.value;
-v="QQQ"
-$('.t1').text(message)
-$('.t2').text(v)
-function ageAjax(){
-	$.ajax({
-		type:"post",
-		url:"./Age_Servet",
-		data:v,
-		success:function(message){
-			$('.t1').text(message)
-		}
-		
-	})
+
+<h3 class="t1"></h3>
+<h1 class="t2"></h1>
+<form action="Age_Servlet" method="post">
+	<input type="text" name="key_v" value="36">
+	<input type="submit" value="Submit">
+</form>
+<br>
+<button onclick="AjaxData()">登入帳號</button>
+<p id=viewRight></p>
+<script>
+function AjaxSearch(){
+	v = document.ttt.tt.value;
+    $.ajax({
+        type:"post",
+        url:"./Age_Servlet",
+        data:{key_v:v},
+        success:function(message){
+        	$(".t1").text(message);
+        }
+    });
 }
 
+let viewRight = document.querySelector('#viewRight')
+function AjaxData(){
+	let req = new XMLHttpRequest()
+	req.open("get","Home.jsp")
+	req.onload = function(){
+		viewRight.innerHTML = this.responseText
+	}
+	req.send()
+}
 </script>
 </body>
 </html>
