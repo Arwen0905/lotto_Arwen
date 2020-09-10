@@ -28,7 +28,7 @@ $('#LoginForm').submit(function(e){
 			data:$(this).serialize(),
 			success:function(message){
 				if(message==document.LoginForm.name.value+""+document.LoginForm.password.value){
-				$('.loginInfo').text("登入成功")
+				$('.loginInfo').text("管理員登入成功")
 				window.location.href = "index.jsp"
 				}else{
 					$('.loginInfo').text(message)

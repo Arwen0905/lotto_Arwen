@@ -8,9 +8,9 @@
 </head>
 <body>
  <h1>設定帳戶：</h1>
-<jsp:useBean id="QQ" class="Lotto649_Test.AgeBean" scope="session"/> 
+<jsp:useBean id="QQ" class="Lotto649_Test.nameBean" scope="session"/> 
  <% String message = (String)session.getAttribute("sss");%>
-<jsp:setProperty name="QQ" property="age" value="<%= message %>"/>
+<jsp:setProperty name="QQ" property="userName" value="<%= message %>"/>
 
  <h1>你的名字: <%= message %></h1>
 

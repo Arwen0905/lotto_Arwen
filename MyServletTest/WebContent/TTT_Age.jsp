@@ -8,25 +8,26 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:useBean id="emp" class="Lotto649_Test.AgeBean" scope="request"/>
-<jsp:setProperty name="emp" property="age"/>
-<h1>建立帳戶</h1> 
+<jsp:useBean id="emp" class="Lotto649_Test.nameBean" scope="request"/>
+<jsp:setProperty name="emp" property="userName"/>
+<h1>建立帳號</h1> 
 
 <form name="ttt">
 	<input type="text" name='tt' onkeyup="AjaxSearch()" />
-	<input type="button" value="Click" onclick="AjaxSearch()"/>
+	<input type="button" value="帳號檢查" onclick="AjaxSearch()"/>
 </form>
 
 <h3 class="t1"></h3>
 <h1 class="t2"></h1>
 <form action="Age_Servlet" method="post">
-	<input type="text" name="key_v" value="36">
-	<input type="submit" value="Submit">
+	<input type="password" name="key_v">
+	<input type="submit" value="建立送出">
 </form>
-<br>
-<button onclick="AjaxData()">登入帳號</button>
+<br><br>
+<button onclick="CreateUser()">登入帳號</button>
 <p id=viewRight></p>
 <script>
+// 檢查帳號是否重複
 function AjaxSearch(){
 	v = document.ttt.tt.value;
     $.ajax({
@@ -39,8 +40,9 @@ function AjaxSearch(){
     });
 }
 
+// 建立帳號
 let viewRight = document.querySelector('#viewRight')
-function AjaxData(){
+function CreateUser(){
 	let req = new XMLHttpRequest()
 	req.open("get","Home.jsp")
 	req.onload = function(){

@@ -17,14 +17,15 @@ position: relative;
 	display: flex;
 }
 .lotto649{
-width: 600px;
+width: 400px;
 border: 5px solid #ff2244;
 padding: 20px;
-background: #eeeeee;
+background: #eee;
 }
 #wen{
-color:#ff2244;
-font-size: 36px;
+height: 40px;
+color: #ff2244;
+font-size: 28px;
 user-select: none;
 }
 #wen:hover{
@@ -52,15 +53,20 @@ margin: 5px;
 	line-height: 20px;
 }
 .ansText{
-	margin: 10px 0;
+	margin: 5px 0;
 	padding: 10px;
 	/* background: #ffaacc; */
 }
 #viewRight{
-	width: 600px;
+	width: 400px;
 	border: 5px solid #2244ff;
+	margin: 0px;
 	padding: 20px;
-	background: #999;
+	background: #eee;
+}
+.other{
+	font-size: 18px;
+	margin: 5px;
 }
 </style>
 </head>
@@ -76,7 +82,7 @@ margin: 5px;
 	<button id="pred_btn">幸運轉蛋</button>
 	<p class="up">祝您好運</p>
 
-		<form id="formNum_main" action="MyServlet" method=post>
+		<form id="formNum_main">
 				<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
 				<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
 				<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
@@ -87,7 +93,7 @@ margin: 5px;
 				<!-- 開獎欄位 -->
 				<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
 				<!-- 送出資料 -->
-				<input onClick="sendInfo()" class="btn" id="submit_btn" name="submit" type=submit value="開獎">
+				<input class="btn" id="submit_btn" name="submit" type="button" value="開獎">
 		</form>
 		<br>
 		<!-- 預測碼功能: 無限期維修中 -->
@@ -95,11 +101,16 @@ margin: 5px;
 		<button name="predict_Go" class="predict_Go">確定</button>
 
 		<div class="ansText"></div>
+		<% Object QQ = session.getAttribute("QQ"); %>
 	</div>
-	<div id="viewRight">
 
+	<div id="viewRight">
+		<pre id="viewAjax" style="word-break:break-all"></pre>
 	</div>
+	<p class="other">
 </div>
+
+
 	<script type="text/javascript">
 	let wen = document.querySelector('#wen')
 	let selectNum1 = document.querySelector('.selectNum1')
@@ -115,6 +126,7 @@ margin: 5px;
 	let submit_btn = document.querySelector('#submit_btn')
 	let ansText = document.querySelector('.ansText')
 	let viewRight = document.querySelector('#viewRight')
+	let other = document.querySelector('.other')
 	
 	// 預測碼功能(更新中) todo.. ======================================================
 	
@@ -140,7 +152,7 @@ margin: 5px;
 	// 開獎號碼
 	s = Math.round(Math.random()*9)+1
 	ansLotto = ansAll[s]
-	ansLotto.pop()
+	ansLotto.pop() // 移除特別號
 
 	// 專屬預測號碼: 100%中獎
 	predict_Num.onclick = function(){
@@ -161,28 +173,30 @@ margin: 5px;
 		predict_Num.onclick()
 	}
 
-// Ajax ===========================================================================================================================
-	function getData(){
-		let req = new XMLHttpRequest()
-		req.open("get","MyServlet")
-		req.onload = function(){
-			viewRight.innerHTML = this.responseText
-		}
-		req.send()
+// Ajax ======================================================================================================================
+	function lottoAjax(checkNum){
+		$('#viewAjax').text("投注獎號：" + checkNum)
+		$.ajax({
+			type:"post",
+			url:"./MyServlet",
+			data:$('#formNum_main').serialize(),
+			success:function(message){
+				$('#viewAjax').text(message)
+
+			}
+		})
 	}
 // ===========================================================================================================================
-
 	// 開獎按鈕: 檢測重複號碼
 	submit_btn.onclick = function(){
 		c = currentNum() // 取得當前值(通用函式)
 		checkNum = c.toString().split(',')
-		//getData() // Ajax測試
 		ticket = true // 對獎門票
 		for(i=0; i<6; i++){
 			for(j=0; j<i; j++){
 				if(checkNum[i]==checkNum[j]){
 					wen.innerHTML = "號碼重複，請重新設定"
-					viewRight.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
+					other.innerHTML += "<br>" + "請檢查重複值 " +"<span style='color:#ff2244'>"+ checkNum[i] +"</span>" + "<br>"
 					ticket = false // 有重複值就沒收門票
 					break // 終止對獎
 				}
@@ -191,12 +205,13 @@ margin: 5px;
 
 		if(ticket){ // 門票為 true 即符合對獎資格
 			wen.innerHTML = "經費不足，無限期請求金援"
-			lottoAns(checkNum) // 呼叫對獎函式
+			lottoAns(checkNum) // 呼叫本地對獎函式
+			lottoAjax(checkNum) // Ajax資料庫對獎
 		}
 
 	}
 
-	// 對獎函式: 	
+	// 本地取樣的對獎函式: 	
 	function lottoAns(checkNum){
 		ansCurrent = ansAll[s] // 完整獎號
 		let checkCount = 0
@@ -204,14 +219,14 @@ margin: 5px;
 			for(j=0; j<6; j++){
 				if(checkNum[j]==ansCurrent[i]){
 					checkCount+=1
-					viewRight.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
+					other.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
 				}
 			}
 		}
 		if(checkCount>=3){
-			viewRight.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
+			other.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
 		}else{
-			viewRight.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
+			other.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
 		}
 	}
 
@@ -267,7 +282,7 @@ margin: 5px;
 		    		}else{arc.innerHTML += "<option>"+i+"</option>"}
 		    	}
 	 }
-	// 事故: 原先用該值作修改即可，因上述事故使用重寫的方式
+	// 例外: 原先用該值作修改即可，因上述例外使用重寫的方式
 	function arFun(ar){
 		roll_col(selectNum1,ar[0])
 		roll_col(selectNum2,ar[1])

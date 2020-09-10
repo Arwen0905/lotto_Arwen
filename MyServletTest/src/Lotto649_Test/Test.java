@@ -19,11 +19,12 @@ public class Test extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8"); //能顯示中文
 
-		String key_v = request.getParameter("key_v");
+		String key_v = request.getParameter("fff_name");
 		
 		PrintWriter out = response.getWriter();
 		System.out.println(key_v);
-		out.print("QwQ");
+		out.print("後端取到值");
+		out.print(key_v);
 		
 
 	}

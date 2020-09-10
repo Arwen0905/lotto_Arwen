@@ -32,9 +32,9 @@ class goldClass implements Runnable{
 		if(totalGold>0) {
 			totalGold--;
 			total++;
-			if(totalGold<=5) {
-				System.out.println("剩餘的金塊:"+totalGold);
-			}
+//			if(totalGold<=5) {
+//				System.out.println("剩餘的金塊:"+totalGold);
+//			}
 			if(totalGold==0) {
 				System.out.println("最終挖掘的金塊:"+total);	
 			}

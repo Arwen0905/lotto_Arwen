@@ -23,7 +23,7 @@ public class User_Servlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
 
         String UU = request.getParameter("UU");
-        System.out.println("取得到UUU傳過來的名字"+UU);
+        System.out.println("取得到UUU傳過來的名字 "+UU);
         
         // 建立 userName 物件，並指定一個session 的attribute 與之繫結
         UserBean userName = new UserBean();
