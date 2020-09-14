@@ -17,7 +17,7 @@
 	<input type="button" value="帳號檢查" onclick="AjaxSearch()"/>
 </form>
 
-<h3 class="t1"></h3>
+<pre class="t1"></pre>
 <h1 class="t2"></h1>
 <form action="Age_Servlet" method="post">
 	<input type="password" name="key_v">

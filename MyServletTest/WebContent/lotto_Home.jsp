@@ -65,6 +65,7 @@ margin: 5px;
 	background: #eee;
 }
 .other{
+	width: 400px;
 	font-size: 18px;
 	margin: 5px;
 }
@@ -78,22 +79,28 @@ margin: 5px;
 		<a id="url_lotto" href="https://www.taiwanlottery.com.tw/lotto649/index.asp" target="_blank">遊戲規則</a>
 
 		<h2>準備好了嗎 ?</h2>
-	<button class="lucky">提升幸運值</button>
+		
+	<button class="lucky">電腦選號</button>
+	
 	<button id="pred_btn">幸運轉蛋</button>
+	
 	<p class="up">祝您好運</p>
 
 		<form id="formNum_main">
+				<select class="selectYear" name="Year"></select> 年份
+				<br><br>
 				<select onchange="handler_form(this)" name="n1" class="selectNum1"> </select>
 				<select onchange="handler_form(this)" name="n2" class="selectNum2"> </select>
 				<select onchange="handler_form(this)" name="n3" class="selectNum3"> </select>
 				<select onchange="handler_form(this)" name="n4" class="selectNum4"> </select>
 				<select onchange="handler_form(this)" name="n5" class="selectNum5"> </select>
 				<select onchange="handler_form(this)" name="n6" class="selectNum6"> </select>
+				 獎號
 				<br><br>
 				<!-- 開獎欄位 -->
 				<select onchange="handler_option(this)" name="random_seed" class="random_seed"> </select>
 				<!-- 送出資料 -->
-				<input class="btn" id="submit_btn" name="submit" type="button" value="開獎">
+				<input class="btn" id="submit_btn" onclick="submitLotto()" name="submit" type="button" value="開獎">
 		</form>
 		<br>
 		<!-- 預測碼功能: 無限期維修中 -->
@@ -107,7 +114,7 @@ margin: 5px;
 	<div id="viewRight">
 		<pre id="viewAjax" style="word-break:break-all"></pre>
 	</div>
-	<p class="other">
+	<div class="other">
 </div>
 
 
@@ -119,13 +126,19 @@ margin: 5px;
 	let selectNum4 = document.querySelector('.selectNum4')
 	let selectNum5 = document.querySelector('.selectNum5')
 	let selectNum6 = document.querySelector('.selectNum6')
-
+	
+	let selectYear = document.querySelector('.selectYear')
+	for(i=2014; i<=2019; i++){
+			 selectYear.innerHTML += "<option>"+ i +"</option>"
+		 }
+	
 	let random_seed = document.querySelector('.random_seed')
 	let pred_btn = document.querySelector('#pred_btn')
 	let formNum_main = document.querySelector('#formNum_main')
 	let submit_btn = document.querySelector('#submit_btn')
 	let ansText = document.querySelector('.ansText')
 	let viewRight = document.querySelector('#viewRight')
+	let viewAjax = document.querySelector('#viewAjax')
 	let other = document.querySelector('.other')
 	
 	// 預測碼功能(更新中) todo.. ======================================================
@@ -180,15 +193,16 @@ margin: 5px;
 			type:"post",
 			url:"./MyServlet",
 			data:$('#formNum_main').serialize(),
+			datatype:"json",
 			success:function(message){
 				$('#viewAjax').text(message)
-
+				other.innerHTML += message			
 			}
 		})
 	}
 // ===========================================================================================================================
 	// 開獎按鈕: 檢測重複號碼
-	submit_btn.onclick = function(){
+	function submitLotto(){
 		c = currentNum() // 取得當前值(通用函式)
 		checkNum = c.toString().split(',')
 		ticket = true // 對獎門票
@@ -241,9 +255,15 @@ margin: 5px;
 	
 	// 顯示按鈕(幸運轉蛋)
 	lucky.onclick = function(){
-		pred_btn.style.display = "inline"
-		lucky.style.display = "none"
+//		pred_btn.style.display = "inline"
+//		lucky.style.display = "none"
 		up.innerHTML = "發大財！"
+	// 電腦選號
+		ar = []
+		roll()
+		random_seed.innerHTML += '<option selected>'+ ar +'</option>'
+		arFun(ar)
+		submitLotto()
 	}
 
 	// 亂數不重複(通用函式)
@@ -273,7 +293,7 @@ margin: 5px;
 		arFun(ar)
 	}
 	// ================================================================================	
-	 // 事故: java環境的 js設定 疑似不允許即時更新選框值，故使用重寫方式作設計功能
+	 // 事件: java環境的 js設定 疑似不允許即時更新選框值，故使用重寫方式作設計功能
 	 function roll_col(arc,v){ // ( 被修改 , 欲修改 )
 		 arc.innerHTML = ''
 		 for(i=1; i<50; i++){
@@ -341,6 +361,7 @@ margin: 5px;
 				selectNum6.innerHTML += '<option selected>'+ i +'</option>'
 			}else{selectNum6.innerHTML += '<option>'+ i +'</option>'}		
 		 };
+	 
 	}
 	 
     </script>

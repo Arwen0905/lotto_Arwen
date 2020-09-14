@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 @WebServlet("/MyServlet")
 public class MyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -38,9 +40,12 @@ public class MyServlet extends HttpServlet {
         String n4 = request.getParameter("n4");
         String n5 = request.getParameter("n5");
         String n6 = request.getParameter("n6");
-
+        
         String userLotto[] = {n1,n2,n3,n4,n5,n6};
-        lotto649_MySQL lottoGo = new lotto649_MySQL(userLotto);
+        String Year = request.getParameter("Year");
+        System.out.println("¨ú±o¦~¥÷¡F"+Year);
+        
+        lotto649_MySQL lottoGo = new lotto649_MySQL(userLotto,Year);
         Map<String, String> ansData = new TreeMap<>();
         
         ansData = lottoGo.detect();
@@ -52,9 +57,18 @@ public class MyServlet extends HttpServlet {
         session.setAttribute("QQ", ansData); //³]©wname¬°"QQ"
 
         Object QQ = session.getAttribute("QQ");     
-        System.out.println(QQ);
+        System.out.println(QQ); //Àx¦sª«¥ó
+        
         System.out.println("§ëª`¼ú¸¹¡G");
-        System.out.println(n1+" "+n2+" "+n3+" "+n4+" "+n5+" "+n6);
+        System.out.println(n1+","+n2+","+n3+","+n4+","+n5+","+n6);
+        
+        out.println("§ëª`¼ú¸¹¡G" + n1+","+n2+","+n3+","+n4+","+n5+","+n6);
+        out.println("¦~¥÷¡G" + Year);
+        
+        try {			
+        	JSONObject responseLotto = new JSONObject();
+        	out.println(responseLotto);
+		} catch (Exception e) {}
         
         if(ansData.isEmpty()) {
 			out.println("¨S¦³¤¤¼ú");

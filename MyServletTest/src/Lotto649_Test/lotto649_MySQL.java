@@ -8,9 +8,11 @@ public class lotto649_MySQL {
 		public static String []useLotto;
 		public static TreeMap<String,String> ansData;
 		public static TreeMap<String,String> ansAjax;
-		int bonusAll;
-		public lotto649_MySQL(String ar[]){
+		int bonusAll; //給前端容器 只顯示符合號碼
+		private String Year; //年份設定
+		public lotto649_MySQL(String ar[],String Year){
 			useLotto = ar;
+			this.Year = Year;
 		}
 		public TreeMap<String,String> detect() {
 			TreeMap<String,String> lottoData = new TreeMap<>();
@@ -19,8 +21,8 @@ public class lotto649_MySQL {
 	           Connection conn = DriverManager.getConnection(
 	        		   "jdbc:mysql://localhost:3307/lotto649?serverTimezone=UTC","root","root");
 	           
-	           String year = "2019"; 
-	           String query = "SELECT * FROM lotto649_" + year;
+//	           String Year = "2019"; 
+	           String query = "SELECT * FROM lotto649_" + Year;
 	           Statement stmt = conn.createStatement();
 	           ResultSet rs = stmt.executeQuery(query);
 

@@ -1,7 +1,5 @@
 content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="java.util.Map"><rhs name\="java.util.HashMap"/><rhs name\="java.util.TreeMap"/></lhs><lhs name\="java.lang.Cloneable"><rhs name\="java.util.HashMap"/><rhs name\="java.util.TreeMap"/></lhs><lhs name\="java.util.AbstractMap"><rhs name\="java.util.HashMap"/><rhs name\="java.util.TreeMap"/></lhs><lhs name\="java.util.HashMap"><rhs name\="java.util.HashMap"/></lhs><lhs name\="java.util.NavigableMap"><rhs name\="java.util.TreeMap"/></lhs><lhs name\="java.util.SortedMap"><rhs name\="java.util.TreeMap"/></lhs><lhs name\="java.util.TreeMap"><rhs name\="java.util.TreeMap"/></lhs><lhs name\="Lotto649_Test.PeopleBean"><rhs name\="Lotto649_Test.PeopleBean"/></lhs><lhs name\="org.json.JSONObject"><rhs name\="org.json.JSONObject"/></lhs><lhs name\="org.json.JSONArray"><rhs name\="org.json.JSONArray"/></lhs></history>
 content_assist_number_of_computers=14
-content_assist_proposals_background=255,255,255
-content_assist_proposals_foreground=0,0,0
 eclipse.preferences.version=1
 org.eclipse.jdt.internal.ui.navigator.layout=2
 org.eclipse.jdt.internal.ui.navigator.librariesnode=true

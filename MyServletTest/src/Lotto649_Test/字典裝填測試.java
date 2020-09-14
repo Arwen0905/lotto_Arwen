@@ -26,7 +26,7 @@ public class ¦r¨å¸Ë¶ñ´ú¸Õ {
 		}
 		System.out.println(nn+" << nn");
 		System.out.println(aa+" << aa");
-        lotto649_MySQL lottoGo = new lotto649_MySQL(aa);
+        lotto649_MySQL lottoGo = new lotto649_MySQL(aa,"2019");
         Map<String, String> ansData = new TreeMap<>();
         ansData = lottoGo.detect();
         ansData.put("Q", "Q"); 
