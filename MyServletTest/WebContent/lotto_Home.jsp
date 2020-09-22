@@ -103,9 +103,9 @@ margin: 5px;
 				<input class="btn" id="submit_btn" onclick="submitLotto()" name="submit" type="button" value="開獎">
 		</form>
 		<br>
-		<!-- 預測碼功能: 無限期維修中 -->
+		<!-- 預測碼功能: 無限期延期 -->
 		<button name="predict_Num" class="predict_Num">專屬預測號碼!</button>
-		<button name="predict_Go" class="predict_Go">確定</button>
+		<button name="predict_Go" class="predict_Go">貼上</button>
 
 		<div class="ansText"></div>
 		<% Object QQ = session.getAttribute("QQ"); %>
@@ -114,7 +114,8 @@ margin: 5px;
 	<div id="viewRight">
 		<pre id="viewAjax" style="word-break:break-all"></pre>
 	</div>
-	<div class="other">
+	<div class="other"></div>
+	<div class="other2"></div>
 </div>
 
 
@@ -162,43 +163,92 @@ margin: 5px;
 	let ans10 = ["46","4","44","34","22","17","13"]
 	let ansAll = [ans1,ans2,ans3,ans4,ans5,ans6,ans7,ans8,ans9,ans10]
 	
-	// 開獎號碼
+	// 本地 - 開獎號碼
 	s = Math.round(Math.random()*9)+1
 	ansLotto = ansAll[s]
 	ansLotto.pop() // 移除特別號
 
-	// 專屬預測號碼: 100%中獎
+	// 預測號碼
+		push_bool = false
 	predict_Num.onclick = function(){
 		count += 1
-		this.innerHTML=(this.innerHTML=="戳我戳我!"?"戳壞了":"戳我戳我!")
-		predict_Go.style.display = "none"
-
-		if(count%5==0){
-			predict_Go.style.display = "inline"
-			ar =  ansLotto
-			this.innerHTML = ar
+		$('.other2').text(count)
+		if(push_bool == true){ //當預測碼 出現時..
+			if(confirm("貼上 預測碼")){ //詢問是否要貼上
+				predict_Go.onclick() //貼上
+				this.innerHTML=(this.innerHTML=="戳我戳我!"?"戳壞了":"戳我戳我!") //完成並關閉預測碼顯示
+			}else{ //取消即關閉號碼顯示
+				this.innerHTML=(this.innerHTML=="戳我戳我!"?"戳壞了":"戳我戳我!") //完成並關閉預測碼顯示
+				}
+		}else{
+			this.innerHTML=(this.innerHTML=="戳我戳我!"?"戳壞了":"戳我戳我!")		
+		}
+		
+		if(count%5==0){ // 當符合N次點擊 喚醒預測碼時..
+			predict_Go.style.display = "inline" //貼上按鈕 顯示
+			this.innerHTML = ansLotto //顯示號碼
+			push_bool = true //比對門票
+		}else{
+			predict_Go.style.display = "none" //貼上按鈕 不顯示
+			push_bool = false
 		}
 	}
 	// 將預測號碼 設定為 開獎號碼
 	predict_Go.onclick = function(){
-		random_seed.innerHTML += '<option selected>'+ ar +'</option>'
-		arFun(ar)
-		predict_Num.onclick()
+		random_seed.innerHTML += '<option selected>'+ ansLotto +'</option>'
+		arFun(ansLotto)
 	}
 
 // Ajax ======================================================================================================================
+	jsonObj = {}
 	function lottoAjax(checkNum){
 		$('#viewAjax').text("投注獎號：" + checkNum)
+		//viewAjax.innerHTML += "<br>"
 		$.ajax({
 			type:"post",
 			url:"./MyServlet",
 			data:$('#formNum_main').serialize(),
 			datatype:"json",
 			success:function(message){
-				$('#viewAjax').text(message)
-				other.innerHTML += message			
+				jsonObj = JSON.parse(message)
+				$('#viewAjax').append("<br>中獎總數："+jsonL(jsonObj)+"<br>")
+				
 			}
-		})
+		}) 
+	}
+	
+// ===========================================================================================================================
+		// JSON內容輸出
+	function jsonL(jsonEl){
+		$('.other2').text()
+		jsonLength = 0 //計算長度，可意旨為：中獎總數
+		for(i in jsonEl){
+			jsonLength++ //獎數長度++
+			$('#viewAjax').append("<br>"+ jsonEl[i])//顯示每組的中獎號碼 * 已移除 [ ] 外框
+			tem_el = jsonEl[i].split(',') // 移除 " , " 逗號，純數值顯示
+
+			count = 0
+			for(i=0; i<6; i++){
+				red = false
+				for(j=0; j<i; j++){					
+					if(checkNum[i]==tem_el[j]){
+						count++
+						red = true		
+					}
+				}
+				if(red){			
+					$('.other').append('<spen style="color:#ff2244;">'+checkNum[i]+" </spen>")
+				}else{				
+					$('.other').append('<spen style="color:#000000;">'+checkNum[i]+' </spen>')
+				}
+			}
+			if(count>=3){
+			$('.other').append("<br>恭喜中獎！ "+ count +" 個符合獎號 <br><br> ")
+			}else{
+			$('.other').append("<br>可惜！沒有中獎，下去領500<br><br> ")				
+			}
+		}//以上迴圈已輸出內容
+		return jsonLength //只返回總數即可
 	}
 // ===========================================================================================================================
 	// 開獎按鈕: 檢測重複號碼
@@ -233,15 +283,16 @@ margin: 5px;
 			for(j=0; j<6; j++){
 				if(checkNum[j]==ansCurrent[i]){
 					checkCount+=1
-					other.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
+					//other.innerHTML += checkNum[j] + " 號碼符合! 目前累積 " + checkCount + " 個號碼獎號" + "<br>"
 				}
 			}
 		}
 		if(checkCount>=3){
-			other.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
+			//other.innerHTML += "恭喜中獎!本組[ " + checkNum + " ]獎號共符合" + checkCount + "個號碼" + "<br><br>"
 		}else{
-			other.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
+			//other.innerHTML += "可惜！沒有中獎，下去領500" + "<br>"
 		}
+
 	}
 
 	// 取得當前值(通用函式)
@@ -253,19 +304,19 @@ margin: 5px;
 		return lst
 	}
 	
-	// 顯示按鈕(幸運轉蛋)
+	// 顯示按鈕(隨機選號功能)
 	lucky.onclick = function(){
 //		pred_btn.style.display = "inline"
 //		lucky.style.display = "none"
 		up.innerHTML = "發大財！"
-	// 電腦選號
+	// 電腦選號 直接送出比對
 		ar = []
 		roll()
 		random_seed.innerHTML += '<option selected>'+ ar +'</option>'
 		arFun(ar)
 		submitLotto()
 	}
-
+	
 	// 亂數不重複(通用函式)
 	let ar = []
 	function roll(){
@@ -281,6 +332,7 @@ margin: 5px;
 			}
 		}
 	}
+	// 遊戲開始 Load
 	roll() // 先取得一組亂數
 	constructor() // 建構六組單選欄位
 	random_seed.innerHTML += '<option selected>'+ ar +'</option>' // 第一次取得的亂數 當作預設號碼

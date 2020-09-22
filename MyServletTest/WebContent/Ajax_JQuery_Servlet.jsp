@@ -4,33 +4,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>index_Ajax</title>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-     <input type="button" id="but_json_json" name="ajs" value="確認"/>
-<script>
-                 $('#but_json_json').click(function(){
-                     let j ={"name":"王","password":123456};
-                   
-                     $.ajax(
-                             {
-                                 url:"JSON_Servlet", //訪問路徑
-                                 type:"POST",    //訪問方式
-                                 data:j, //傳入服務端的資料
-                                 dataType:"json",
-                                 contentType:"application/json;charset=utf-8",
-                                 success : function(data){
-                                     alert(data);
-                                       alert(data.name);
-                                       
-                                        
-                                         alert(data.password);
-                                 }
-                                  
-                             }       
-                             );
-                 });
-</script> 
-    </body>
- 
+<input type="button" id="btn" name="btn" value="點我" onclick="jsonAjaxPost()">
+<div id="resultJsonText"></div>
+     
+<script type="text/javascript">        
+    function jsonAjaxPost(){     
+        $.ajax({  
+            type:"post", 
+            url:"GsonServlet",   
+            dataType:"json",//设置返回数据的格式 ，请求成功后的回调函数 data为json格式  
+            success:
+                function(data){  
+                    $("#resultJsonText").text("name："+data.QQ+"  age:"+data.age);  
+                },  
+            error:
+                function(xhr, ajaxOptions, thrownError){
+                    alert(xhr.status+"\n"+thrownError);
+                }
+        });  
+    }  
+</script>
+
+</body>
 </html>

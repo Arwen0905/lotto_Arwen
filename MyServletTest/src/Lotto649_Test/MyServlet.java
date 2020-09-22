@@ -2,17 +2,12 @@ package Lotto649_Test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Map;
-import java.util.TreeMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.json.JSONObject;
 
 @WebServlet("/MyServlet")
 public class MyServlet extends HttpServlet {
@@ -27,9 +22,9 @@ public class MyServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");//可將字串內容打印成網頁格式
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8"); //獲取網頁傳輸的內容
-        /** 設定響應頭允許ajax跨域訪問 **/
+        // 設定響應頭允許ajax跨域訪問
         response.setHeader("Access-Control-Allow-Origin", "*");
-        /* 星號表示所有的異域請求都可以接受， */
+        // 星號表示所有的異域請求都可以接受
         response.setHeader("Access-Control-Allow-Methods", "GET,POST");
 
 
@@ -46,7 +41,8 @@ public class MyServlet extends HttpServlet {
         System.out.println("取得年份；"+Year);
         
         lotto649_MySQL lottoGo = new lotto649_MySQL(userLotto,Year);
-        Map<String, String> ansData = new TreeMap<>();
+//        Map<String, String> ansData = new TreeMap<>();
+        String ansData;
         
         ansData = lottoGo.detect();
                 
@@ -62,28 +58,27 @@ public class MyServlet extends HttpServlet {
         System.out.println("投注獎號：");
         System.out.println(n1+","+n2+","+n3+","+n4+","+n5+","+n6);
         
-        out.println("投注獎號：" + n1+","+n2+","+n3+","+n4+","+n5+","+n6);
-        out.println("年份：" + Year);
-        
-        try {			
-        	JSONObject responseLotto = new JSONObject();
-        	out.println(responseLotto);
-		} catch (Exception e) {}
-        
+//        out.println("投注獎號：" + n1+","+n2+","+n3+","+n4+","+n5+","+n6);
+//        out.println("年份：" + Year);
+//        out.println("中獎數："+lottoGo.bonusAll);
+//        out.println("<FONT size='12' color='#ff2244'>CSS語法寫前端</FONT>");
         if(ansData.isEmpty()) {
 			out.println("沒有中獎");
 			System.out.println("沒有中獎");
 		}
+//        Gson gson = new Gson();
+//        String json_Data = gson.toJson(ansData);
+//        System.out.println(json_Data);
+//        out.print(json_Data);
+        out.print(ansData);
         
-        
-		for(String key : ansData.keySet()){
-			String value = ansData.get(key);
-			System.out.println(key + " " + value);
-			out.println(key + " " +value); //寫到前端
-			
-		}
-		
-        out.println("中獎數："+lottoGo.bonusAll);
+//		for(String key : ansData.keySet()){
+//			String value = ansData.get(key);
+//			System.out.println(key + " " + value);
+//			out.println(key + " " +value); //寫到前端
+//			
+//		}
+
 // ================================================================================================        
         
         
