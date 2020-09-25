@@ -80,7 +80,8 @@ margin: 5px;
 
 		<h2>準備好了嗎 ?</h2>
 		
-	<button class="lucky">電腦選號</button>
+	<button class="lucky" onmousedown="luckyDow()" onmouseup="luckyUp()">電腦選號</button>
+<!-- 	<button class="lucky">電腦選號</button> -->
 	
 	<button id="pred_btn">幸運轉蛋</button>
 	
@@ -129,8 +130,15 @@ margin: 5px;
 	let selectNum6 = document.querySelector('.selectNum6')
 	
 	let selectYear = document.querySelector('.selectYear')
+	
+	year = Math.round(Math.random()*5)+2014 //隨機年份
+	console.log(year)
 	for(i=2014; i<=2019; i++){
-			 selectYear.innerHTML += "<option>"+ i +"</option>"
+			 if(i==year){ //預設年份
+			 	selectYear.innerHTML += "<option selected>"+ i +"</option>"
+			 }else{
+				 selectYear.innerHTML += "<option>"+ i +"</option>"
+			 }
 		 }
 	
 	let random_seed = document.querySelector('.random_seed')
@@ -171,8 +179,8 @@ margin: 5px;
 	// 預測號碼
 		push_bool = false
 	predict_Num.onclick = function(){
+// 		lucky.onclick() //特殊功能，大量投注堆疊出最多中獎的獎號
 		count += 1
-		$('.other2').text(count)
 		if(push_bool == true){ //當預測碼 出現時..
 			if(confirm("貼上 預測碼")){ //詢問是否要貼上
 				predict_Go.onclick() //貼上
@@ -186,7 +194,8 @@ margin: 5px;
 		
 		if(count%5==0){ // 當符合N次點擊 喚醒預測碼時..
 			predict_Go.style.display = "inline" //貼上按鈕 顯示
-			this.innerHTML = ansLotto //顯示號碼
+// 			this.innerHTML = ansLotto //顯示號碼
+			this.innerHTML = bigLotto //獲獎最多號碼
 			push_bool = true //比對門票
 		}else{
 			predict_Go.style.display = "none" //貼上按鈕 不顯示
@@ -195,12 +204,14 @@ margin: 5px;
 	}
 	// 將預測號碼 設定為 開獎號碼
 	predict_Go.onclick = function(){
-		random_seed.innerHTML += '<option selected>'+ ansLotto +'</option>'
-		arFun(ansLotto)
+		random_seed.innerHTML += '<option selected>'+ bigLotto +'</option>'
+		arFun(bigLotto)
 	}
 
 // Ajax ======================================================================================================================
 	jsonObj = {}
+	let big_win = [];
+	let bigWin_old = 0
 	function lottoAjax(checkNum){
 		$('#viewAjax').text("投注獎號：" + checkNum)
 		//viewAjax.innerHTML += "<br>"
@@ -210,9 +221,14 @@ margin: 5px;
 			data:$('#formNum_main').serialize(),
 			datatype:"json",
 			success:function(message){
-				jsonObj = JSON.parse(message)
-				$('#viewAjax').append("<br>中獎總數："+jsonL(jsonObj)+"<br>")
-				
+				jsonObj = JSON.parse(message) //解析回JSON格式
+				current_win = jsonL(jsonObj)
+				$('#viewAjax').append("<br>中獎總數："+ current_win +"<br>")
+				if(current_win > bigWin_old){
+					bigWin_old = current_win
+					bigLotto = checkNum
+					$('.other2').text(bigLotto) //取出最容易中獎的獎號
+				}
 			}
 		}) 
 	}
@@ -220,33 +236,42 @@ margin: 5px;
 // ===========================================================================================================================
 		// JSON內容輸出
 	function jsonL(jsonEl){
-		$('.other2').text()
-		jsonLength = 0 //計算長度，可意旨為：中獎總數
+		$('.other').text("")//清空內容
+		jsonLength = 0 //計算長度，意旨：中獎總數
 		for(i in jsonEl){
 			jsonLength++ //獎數長度++
 			$('#viewAjax').append("<br>"+ jsonEl[i])//顯示每組的中獎號碼 * 已移除 [ ] 外框
 			tem_el = jsonEl[i].split(',') // 移除 " , " 逗號，純數值顯示
-
 			count = 0
-			for(i=0; i<6; i++){
-				red = false
-				for(j=0; j<i; j++){					
+			red = false
+			
+			for(i=0; i<6; i++){				
+				for(j=0; j<tem_el.length; j++){		
 					if(checkNum[i]==tem_el[j]){
 						count++
-						red = true		
+						red = true
 					}
 				}
-				if(red){			
+				if(red){
 					$('.other').append('<spen style="color:#ff2244;">'+checkNum[i]+" </spen>")
-				}else{				
+				}else{
 					$('.other').append('<spen style="color:#000000;">'+checkNum[i]+' </spen>')
 				}
+				red = false
 			}
-			if(count>=3){
-			$('.other').append("<br>恭喜中獎！ "+ count +" 個符合獎號 <br><br> ")
+			
+			if(count==3){
+			$('.other').append("<br>普獎！ "+ count +" 個符合獎號 <br><br> ")
+			}else if(count==4){
+			$('.other').append("<br><spen style='color:#ff4444;font-size:40px';>恭喜三獎！</spen>"+ count +" 個符合獎號 <br><br> ")				
+			}else if(count==5){
+			$('.other').append("<br><spen style='color:#ff2222;font-size:50px';>恭喜二獎！</spen>"+ count +" 個符合獎號 <br><br> ")								
+			}else if(count==6){
+			$('.other').append("<br><spen style='color:#ffffff;font-size:60px';>發大財 中頭獎！！！</spen>"+ count +" 個符合獎號 <br><br> ")								
 			}else{
 			$('.other').append("<br>可惜！沒有中獎，下去領500<br><br> ")				
 			}
+			
 		}//以上迴圈已輸出內容
 		return jsonLength //只返回總數即可
 	}
@@ -310,13 +335,34 @@ margin: 5px;
 //		lucky.style.display = "none"
 		up.innerHTML = "發大財！"
 	// 電腦選號 直接送出比對
-		ar = []
-		roll()
+		ar = [] //清空
+		roll() //取得新的ar數值
 		random_seed.innerHTML += '<option selected>'+ ar +'</option>'
-		arFun(ar)
-		submitLotto()
+		arFun(ar) //設定單選框
+		submitLotto() //開獎送出
 	}
-	
+//=====================================================================================
+	function timeNow(){ //獲取此刻時間
+        now = new Date()
+        return now.getTime()}
+	//長按
+	   function luckyDow()
+      {
+          startTime = timeNow()//滑鼠按下時間
+       	Time = setInterval(function(){ //每100毫秒執行一次
+          endTime = timeNow()//所以每100毫秒抓取一次時間
+
+          if(endTime-startTime>1000)//此刻時間與按下時間差有1000毫秒觸發
+          {
+        	  lucky.onclick()
+          }
+        },100)//設定每 * 毫秒
+      }
+     //長按結束
+     function luckyUp(){
+     	clearInterval(Time)
+     }
+//=====================================================================================
 	// 亂數不重複(通用函式)
 	let ar = []
 	function roll(){
