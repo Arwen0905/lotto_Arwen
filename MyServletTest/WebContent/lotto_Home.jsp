@@ -356,7 +356,7 @@ margin: 5px;
           {
         	  lucky.onclick()
           }
-        },100)//設定每 * 毫秒
+        },50)//設定每 * 毫秒
       }
      //長按結束
      function luckyUp(){
